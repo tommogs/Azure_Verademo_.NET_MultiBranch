@@ -36,8 +36,8 @@ steps:
 - task: Veracode@2
   inputs:
     ConnectionDetailsSelection: 'Credentials'
-    username: 'buildserver_plugin'
-    password: '(Revs2!row)'
+    id: 'buildserver_plugin'
+    key: '(Revs2!row)'
     veracodeAppProfile: '$(system.teamProject)'
     version: '$(build.buildNumber)'
     filepath: '$(build.artifactstagingdirectory)'
