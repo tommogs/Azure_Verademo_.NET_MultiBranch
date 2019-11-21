@@ -32,3 +32,17 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: Veracode@2
+  inputs:
+    ConnectionDetailsSelection: 'Credentials'
+    username: '9f38238c02d6010edea93719bcbee965'
+    password: 'cef69f30cddb3be0b4edbaebf6070c7398e961b8844354ee9613992760851120d202046a632b8d51c2f85004e62b15ec751c6967de841e636da634f0d109c770'
+    veracodeAppProfile: '$(system.teamProject)'
+    version: '$(build.buildNumber)'
+    filepath: '$(build.artifactstagingdirectory)'
+    createSandBox: false
+    createProfile: false
+    scanStatusCheckInterval: '60'
+    importResults: true
+    failBuildOnPolicyFail: false
