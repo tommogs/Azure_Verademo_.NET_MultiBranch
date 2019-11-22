@@ -35,9 +35,8 @@ steps:
 
 - task: Veracode@2
   inputs:
-    ConnectionDetailsSelection: 'Credentials'
-    username: 'buildserver_plugin'
-    password: '(Revs2!row)'
+    ConnectionDetailsSelection: 'Endpoint'
+    AnalysisService: 'Veracode_API'
     veracodeAppProfile: '$(system.teamProject)'
     version: '$(build.buildNumber)'
     filepath: '$(build.artifactstagingdirectory)'
@@ -46,3 +45,14 @@ steps:
     scanStatusCheckInterval: '60'
     importResults: true
     failBuildOnPolicyFail: false
+
+- task: Veracode Flaw Importer@2
+  inputs:
+    ConnectionDetailsSelection: 'Endpoint'
+    AnalysisService: 'Veracode_API'
+    veracodeAppProfile: '$(system.teamProject)'
+    sandboxName: 
+    importType: 'All Unmitigated Flaws Violating Policy'
+    workItemType: 'Bug'
+    area: '$(system.teamProject)'
+    flawImportLimit: '1000'
