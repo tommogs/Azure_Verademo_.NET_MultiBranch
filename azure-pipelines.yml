@@ -53,6 +53,6 @@ steps:
     veracodeAppProfile: '$(system.teamProject)'
     sandboxName: 
     importType: 'All Unmitigated Flaws Violating Policy'
-    workItemType: 'Bug'
+    workItemType: 'Task'
     area: '$(system.teamProject)'
     flawImportLimit: '1000'
