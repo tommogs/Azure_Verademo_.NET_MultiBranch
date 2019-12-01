@@ -30,7 +30,7 @@ namespace VeraDemoNet.Commands
             logger.Info(sqlQuery);
             var result = sqlStatement.ExecuteScalar();
 		
-            /* START BAD CODE */
+            /* START BAD CODE 
             var removeEvent = "Removed account for blabber " + result;
             sqlQuery = "INSERT INTO users_history (blabber, event) VALUES ('" + blabberUsername + "', '" + removeEvent + "')";
             logger.Info(sqlQuery);
