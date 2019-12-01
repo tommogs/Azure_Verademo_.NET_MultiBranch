@@ -40,12 +40,12 @@ steps:
       # Write your PowerShell commands here.
       
       invoke-Command {
-        $Env:SRCCLR_API_TOKEN
       Write-Output 'Set the Execution Policy'
       Set-ExecutionPolicy Unrestricted -Scope Process -Force
       Write-Output 'Download the agent'
       iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
       Write-Output 'Scan the project'
+      $env:SRCCLR_API_TOKEN
       $Env:SRCCLR_Files="$(build.artifactstagingdirectory)"
       srcclr scan  
       }
