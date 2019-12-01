@@ -33,22 +33,6 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your PowerShell commands here.
-      
-      invoke-Command {
-      Write-Output 'Set the Execution Policy'
-      Set-ExecutionPolicy Unrestricted -Scope Process -Force
-      Write-Output 'Download the agent'
-      iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
-      Write-Output 'Scan the project'
-      $Env:SRCCLR_API_TOKEN="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTA4MDc0LCJleHAiOjE1NzUyMjgwMzQsImF1dGhvcml0aWVzIjoiQUdFTlQiLCJqdGkiOiI1ZDMwODljYy0xYTU1LTRjODktYWI1My1mMDk3YWZkMmU4YTEiLCJjbGllbnRfaWQiOiIiLCJzY29wZSI6W119.AanCkF3MrAWvkRx8ufoUFocbQyAJAQswGEoESMn12XAWlIyF3qsxn9Wzp3TI0xhOPZQSlkhSc6tr9ATUpH9QrLBMqs7H9WvaFhqqpMFKBdk60oaqPVMKxtiGPq-h2HPpstVT0qcITcdwKjzZmBFvzgcGMPAHT7tdM7O6tiOS5P4"
-      $Env:SRCCLR_Files="$(build.artifactstagingdirectory)"
-      srcclr scan --url https://tsmith0206@dev.azure.com/tsmith0206/Azure_Verademo_.net/_git/Azure_Verademo_.net 
-      }
 - task: Veracode@2
   inputs:
     ConnectionDetailsSelection: 'Endpoint'
