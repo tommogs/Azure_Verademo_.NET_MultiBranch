@@ -55,6 +55,6 @@ The deployment from Visual Studio recognises the connection string and will upda
 Install the AWS Toolkit for VS 2017 - https://aws.amazon.com/visualstudio/
 
 
-## Exploitation Demos
+# Exploitation Demos
 
 See the `docs` folder
