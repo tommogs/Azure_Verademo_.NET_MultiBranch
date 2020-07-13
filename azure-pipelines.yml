@@ -41,6 +41,7 @@ steps:
 
 ### Veracode SCA Scan (3rd Party) ###
 - task: PowerShell@2
+  displayName: Veracode SCA
   inputs:
     targetType: 'inline'
     script: |
@@ -56,7 +57,7 @@ steps:
     AnalysisService: 'Veracode_API'
     veracodeAppProfile: '$(system.teamProject)'
     version: '$(build.buildNumber)'
-    filepath: '$(build.artifactstagingdirectory)\bin'
+    filepath: '$(build.artifactstagingdirectory)\WebApp.zip'
     createSandBox: false
     createProfile: false
     scanStatusCheckInterval: '60'
