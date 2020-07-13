@@ -20,6 +20,7 @@ steps:
 
 ### Install NuGet Tool ###
 - task: NuGetCommand@2
+  displayName: Install NuGet
   inputs:
     restoreSolution: '$(solution)'
 
