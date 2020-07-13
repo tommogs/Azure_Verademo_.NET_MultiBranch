@@ -46,7 +46,7 @@ steps:
          Set-ExecutionPolicy AllSigned -Scope Process -Force
          $ProgressPreference = "silentlyContinue"
          iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
-         srcclr scan $(Build.SourcesDirectory)\src\MyHealth.Web
+         srcclr scan $(Build.SourcesDirectory)
 
 ### Veracode SAST Scan (1st Party) ###
 - task: Veracode@2
