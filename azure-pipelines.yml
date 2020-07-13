@@ -27,9 +27,10 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:OutputPath=$(build.artifactStagingDirectory)\bin /p:DeployOnBuild=true /p:PublishProfile=veracode.pubxml."'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
 
 ### Test App (Unit Tests) ###
 - task: VSTest@2
