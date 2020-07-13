@@ -37,7 +37,13 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-### Security Scan App Veracode ###
+### Veracode SCA Scan (3rd Party) ###
+- task: CmdLine@2
+  inputs:
+    script: |
+        curl -sSL https://download.sourceclear.com/ci.sh | bash -s -- scan --skip-compile --update-advisor
+
+### Veracode SAST Scan (1st Party) ###
 - task: Veracode@2
   inputs:
     ConnectionDetailsSelection: 'Endpoint'
