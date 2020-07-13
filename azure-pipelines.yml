@@ -39,10 +39,15 @@ steps:
     configuration: '$(buildConfiguration)'
 
 ### Veracode SCA Scan (3rd Party) ###
-- task: CmdLine@2
+- task: PowerShell@2
   inputs:
+    targetType: 'inline'
+    displayName: 'PowerShell Script'
     script: |
-        curl -sSL https://download.sourceclear.com/ci.sh | bash -s -- scan --skip-compile --update-advisor
+         Set-ExecutionPolicy AllSigned -Scope Process -Force
+         $ProgressPreference = "silentlyContinue"
+         iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
+         srcclr scan $(Build.SourcesDirectory)\src\MyHealth.Web
 
 ### Veracode SAST Scan (1st Party) ###
 - task: Veracode@2
