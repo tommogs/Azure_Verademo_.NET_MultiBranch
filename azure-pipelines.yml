@@ -61,7 +61,7 @@ steps:
     createSandBox: false
     createProfile: false
     scanStatusCheckInterval: '60'
-    importResults: false
+    importResults: true
     failBuildOnPolicyFail: false
 
 ### Import Veracode Flaws Into Boards ###
