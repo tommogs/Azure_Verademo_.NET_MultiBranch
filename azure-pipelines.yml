@@ -57,7 +57,7 @@ steps:
     AnalysisService: 'Veracode_API'
     veracodeAppProfile: '$(system.teamProject)'
     version: '$(build.buildNumber)'
-    filepath: '$(SolutionDir)PrecompiledWeb/$(MSBuildProjectName)/$(MSBuildProjectName).zip'
+    filepath: $(SolutionDir)PrecompiledWeb/$(MSBuildProjectName)/$(MSBuildProjectName).zip
     createSandBox: false
     createProfile: false
     scanStatusCheckInterval: '60'
