@@ -28,7 +28,7 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:OutputPath=bin /p:DeployOnBuild=true /p:PublishProfile=veracode.pubxml'
+    msbuildArgs: '/p:OutputPath=bin /p:DeployOnBuild=true /p:PrecompileBeforePublish=true /p:EnableUpdateable=false /p:DebugSymbols=true /p:WDPMergeOption="CreateSeparateAssembly" /p:WebPublishMethod="FileSystem" /p:UseMerge=false'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
