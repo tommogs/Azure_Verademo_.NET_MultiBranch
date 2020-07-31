@@ -57,7 +57,7 @@ steps:
     AnalysisService: 'Veracode_API'
     veracodeAppProfile: '$(system.teamProject)'
     version: '$(build.buildNumber)'
-    filepath: 'bin/_PublishedWebsites/VeraDemoNet_Package/VeraDemoNet.zip'
+    filepath: 'VeraDemoNet/bin/_PublishedWebsites/VeraDemoNet_Package/VeraDemoNet.zip'
     createSandBox: false
     createProfile: false
     scanStatusCheckInterval: '60'
