@@ -50,28 +50,4 @@ steps:
          iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
          srcclr scan $(Build.SourcesDirectory)
 
-### Veracode SAST Scan (1st Party) ###
-- task: Veracode@2
-  inputs:
-    ConnectionDetailsSelection: 'Endpoint'
-    AnalysisService: 'Veracode_API'
-    veracodeAppProfile: '$(system.teamProject)'
-    version: '$(build.buildNumber)'
-    filepath: 'VeraDemoNet/bin/_PublishedWebsites/VeraDemoNet_Package/VeraDemoNet.zip'
-    createSandBox: false
-    createProfile: false
-    scanStatusCheckInterval: '60'
-    importResults: true
-    failBuildOnPolicyFail: false
 
-### Import Veracode Flaws Into Boards ###
-- task: Veracode Flaw Importer@2
-  inputs:
-    ConnectionDetailsSelection: 'Endpoint'
-    AnalysisService: 'Veracode_API'
-    veracodeAppProfile: '$(system.teamProject)'
-    sandboxName: 
-    importType: 'All Unmitigated Flaws Violating Policy'
-    workItemType: 'Task'
-    area: '$(system.teamProject)'
-    flawImportLimit: '1000'
