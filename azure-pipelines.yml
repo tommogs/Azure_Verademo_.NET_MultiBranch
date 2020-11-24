@@ -61,3 +61,4 @@ steps:
       Expand-Archive -force /pipeline-scan-LATEST.zip
       Write-Output 'Run PipelineScanner'
       java -jar .\pipeline-scan-LATEST\pipeline-scan.jar -vid $env:API_ID -vkey $env:API_KEY -f $(build.artifactstagingdirectory) --fail_on_severity="Very High, High" --fail_on_cwe="80" --issue_details true
+      
