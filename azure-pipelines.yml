@@ -62,8 +62,8 @@ steps:
       Expand-Archive -force /pipeline-scan-LATEST.zip
       java -jar .\pipeline-scan-LATEST\pipeline-scan.jar -vid $env:API_ID -vkey $env:API_KEY -f "VeraDemoNet/bin/_PublishedWebsites/VeraDemoNet_Package/VeraDemoNet.zip" --fail_on_severity="Very High, High" --fail_on_cwe="80" --issue_details true
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/*.json'
-    ArtifactName: 'pipeline scan results'
-    publishLocation: 'Container'
+#- task: PublishBuildArtifacts@1
+#  inputs:
+#    PathtoPublish: '$(Build.ArtifactStagingDirectory)/*.json'
+#    ArtifactName: 'pipeline scan results'
+#    publishLocation: 'Container'
