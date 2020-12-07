@@ -52,6 +52,7 @@ steps:
 
 
 - task: PowerShell@2
+  displayName: Veracode Pipeline Scan
   inputs:
     targetType: 'inline'
     script: |
