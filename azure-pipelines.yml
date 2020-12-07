@@ -66,6 +66,6 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/*.json'
+    PathtoPublish: 'D:\a\1\s\filtered_results.json'
     ArtifactName: 'pipeline scan results'
     publishLocation: 'Container'
