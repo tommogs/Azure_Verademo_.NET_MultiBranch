@@ -62,7 +62,7 @@ steps:
       $ProgressPreference = "silentlyContinue"
       (New-Object System.Net.WebClient).DownloadFile('https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip', '/pipeline-scan-LATEST.zip')
       Expand-Archive -force /pipeline-scan-LATEST.zip
-      java -jar .\pipeline-scan-LATEST\pipeline-scan.jar -vid $env:API_ID -vkey $env:API_KEY -f "VeraDemoNet/bin/_PublishedWebsites/VeraDemoNet_Package/VeraDemoNet.zip" --fail_on_severity="Very High, High" --fail_on_cwe="80" --json_display true
+      java -jar .\pipeline-scan-LATEST\pipeline-scan.jar -vid $env:API_ID -vkey $env:API_KEY -f "VeraDemoNet/bin/_PublishedWebsites/VeraDemoNet_Package/VeraDemoNet.zip" --fail_on_severity="Very High, High" --json_display true
 
 - task: PublishBuildArtifacts@1
   inputs:
