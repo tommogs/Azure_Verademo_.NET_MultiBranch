@@ -10,6 +10,9 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
+  - group: veracode_variablegroup
+
+variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
