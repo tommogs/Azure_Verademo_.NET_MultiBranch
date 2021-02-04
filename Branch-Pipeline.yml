@@ -22,17 +22,13 @@ steps:
       displayName: Install NuGet
       inputs:
         restoreSolution: '$(solution)'
+
     - task: VSBuild@1
       inputs:
         solution: '$(solution)'
         msbuildArgs: '/p:OutputPath=bin /p:DeployOnBuild=true /p:PrecompileBeforePublish=true /p:EnableUpdateable=false /p:DebugSymbols=true /p:WDPMergeOption="CreateSeparateAssembly" /p:WebPublishMethod="FileSystem" /p:UseMerge=false /p:PackageLocation="$(build.artifactstagingdirectory)\\"'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(build.artifactstagingdirectory)\VeraDemoNet.zip'
-        ArtifactName: 'build artifact'
-        publishLocation: 'Container'
 
     - task: PowerShell@2
       displayName: Pipeline Scan PowerShell
@@ -46,20 +42,18 @@ steps:
           Expand-Archive -force /pipeline-scan-LATEST.zip
           java -jar .\pipeline-scan-LATEST\pipeline-scan.jar --veracode_api_id ${env:VERACODE_API_ID} --veracode_api_key ${env:VERACODE_API_KEY} -f $(build.artifactstagingdirectory)\VeraDemoNet.zip --fail_on_severity="Very High, High" --issue_details true
 
-#  - job: Veracode_SCA_Scan
-#    steps:
-#    - task: PowerShell@2
-#      displayName: Veracode SCA
-#      inputs:
-#        targetType: 'inline'
-#        script: |
-#          Set-ExecutionPolicy AllSigned -Scope Process -Force
-#          $ProgressPreference = "silentlyContinue"
-#          iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
-#          srcclr scan $(Build.SourcesDirectory)
+    - task: PowerShell@2
+      displayName: Veracode SCA
+      inputs:
+        targetType: 'inline'
+        script: |
+          Set-ExecutionPolicy AllSigned -Scope Process -Force
+          $ProgressPreference = "silentlyContinue"
+          iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
+          srcclr scan $(Build.SourcesDirectory)
 
-#    - task: PublishBuildArtifacts@1
-#      inputs:
-#        PathtoPublish: 'D:\a\1\s\filtered_results.json'
-#        ArtifactName: 'pipeline scan results'
-#        publishLocation: 'Container'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: 'D:\a\1\s\filtered_results.json'
+        ArtifactName: 'pipeline scan results'
+        publishLocation: 'Container'
