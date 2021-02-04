@@ -49,7 +49,7 @@ stages:
       inputs:
         artifact: WebApp
         patterns: '**/*.zip'
-        path: $(Build.SourcesDirectory)
+        path: $(build.artifactstagingdirectory)
     - task: PowerShell@2
       displayName: Veracode Pipeline Scan
       continueOnError: true
