@@ -53,9 +53,9 @@ stages:
     steps:
     - task: DownloadPipelineArtifact@2
       inputs:
-      artifact: 'build artifact'
-      patterns: '**/*.zip'
-      path: $(build.artifactstagingdirectory)
+        artifact: 'build artifact'
+        patterns: '**/*.zip'
+        path: $(build.artifactstagingdirectory)
     - task: PowerShell@2
       displayName: Veracode Pipeline Scan
       continueOnError: true
