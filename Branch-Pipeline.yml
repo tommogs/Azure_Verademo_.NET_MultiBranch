@@ -4,7 +4,12 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- master
+  branches:
+    include:
+    - feature/*
+
+    exclude:
+      - master
 
 pool:
   vmImage: 'windows-latest'
@@ -12,42 +17,51 @@ pool:
 variables:
   - group: veracode_variablegroup
 
-steps:
-### Fetch NuGet Tool ###
-- task: NuGetToolInstaller@1
+stages:
+- stage: Build
+  displayName: Build .NET App
+  jobs:
+  - job: VS_Build
+    steps:
+    ### Fetch NuGet Tool ###
+    - task: NuGetToolInstaller@1
 
-### Install NuGet Tool ###
-- task: NuGetCommand@2
-  displayName: Install NuGet
-  inputs:
-    restoreSolution: '$(solution)'
+    ### Install NuGet Tool ###
+    - task: NuGetCommand@2
+      displayName: Install NuGet
+      inputs:
+        restoreSolution: '$(solution)'
 
-### Build APP (MSBuild) ###
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:OutputPath=bin /p:DeployOnBuild=true /p:PrecompileBeforePublish=true /p:EnableUpdateable=false /p:DebugSymbols=true /p:WDPMergeOption="CreateSeparateAssembly" /p:WebPublishMethod="FileSystem" /p:UseMerge=false'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    ### Build APP (MSBuild) ###
+    - task: VSBuild@1
+      inputs:
+        solution: '$(solution)'
+        msbuildArgs: '/p:OutputPath=bin /p:DeployOnBuild=true /p:PrecompileBeforePublish=true /p:EnableUpdateable=false /p:DebugSymbols=true /p:WDPMergeOption="CreateSeparateAssembly" /p:WebPublishMethod="FileSystem" /p:UseMerge=false'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
 
+- stage: SecurityTesting
+  displayName: Security Testing
+  jobs:
+  - job: sast_pipeline_scan
+    steps:
+    - task: PowerShell@2
+      displayName: Veracode Pipeline Scan
+      continueOnError: true
+      inputs:
+        targetType: 'inline'
+        script: |
+          Set-ExecutionPolicy AllSigned -Scope Process -Force
+          $ProgressPreference = "silentlyContinue"
+          (New-Object System.Net.WebClient).DownloadFile('https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip', '/pipeline-scan-LATEST.zip')
+          Expand-Archive -force /pipeline-scan-LATEST.zip
+          java -jar .\pipeline-scan-LATEST\pipeline-scan.jar -vid $env:API_ID -vkey $env:API_KEY -f "VeraDemoNet/bin/_PublishedWebsites/VeraDemoNet_Package/VeraDemoNet.zip" --fail_on_severity="Very High, High" --issue_details true
 
-- task: PowerShell@2
-  displayName: Veracode Pipeline Scan
-  continueOnError: true
-  inputs:
-    targetType: 'inline'
-    script: |
-      Set-ExecutionPolicy AllSigned -Scope Process -Force
-      $ProgressPreference = "silentlyContinue"
-      (New-Object System.Net.WebClient).DownloadFile('https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip', '/pipeline-scan-LATEST.zip')
-      Expand-Archive -force /pipeline-scan-LATEST.zip
-      java -jar .\pipeline-scan-LATEST\pipeline-scan.jar -vid $env:API_ID -vkey $env:API_KEY -f "VeraDemoNet/bin/_PublishedWebsites/VeraDemoNet_Package/VeraDemoNet.zip" --fail_on_severity="Very High, High" --issue_details true
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: 'D:\a\1\s\filtered_results.json'
-    ArtifactName: 'pipeline scan results'
-    publishLocation: 'Container'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: 'D:\a\1\s\filtered_results.json'
+        ArtifactName: 'pipeline scan results'
+        publishLocation: 'Container'
 
 ### Veracode SCA Scan (3rd Party) ###
 #- task: PowerShell@2
