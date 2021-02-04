@@ -63,7 +63,7 @@ stages:
         targetType: 'inline'
         script: |
           Set-ExecutionPolicy AllSigned -Scope Process -Force
-         $ProgressPreference = "silentlyContinue"
+          $ProgressPreference = "silentlyContinue"
           (New-Object System.Net.WebClient).DownloadFile('https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip', '/pipeline-scan-LATEST.zip')
           Expand-Archive -force /pipeline-scan-LATEST.zip
           dir $(build.artifactstagingdirectory)
