@@ -43,35 +43,35 @@ steps:
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
 
-- stage: SecurityTesting
-  displayName: Security Testing
-  jobs:
-  - job: Sast_Sandbox_scan
-    steps:
-      - task: DownloadPipelineArtifact@2
-      inputs:
-        artifact: WebApp
-        patterns: '**/*.war'
-        path: $(Build.SourcesDirectory)/bin
+  - stage: SecurityTesting
+    displayName: Security Testing
+    jobs:
+    - job: Sast_Sandbox_scan
+      steps:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifact: WebApp
+            patterns: '**/*.war'
+            path: $(Build.SourcesDirectory)/bin
 
-    - task: Veracode@3
-      inputs:
-        ConnectionDetailsSelection: 'Endpoint'
-        AnalysisService: 'Veracode_API'
-        veracodeAppProfile: '$(system.teamProject)'
-        version: '$(build.buildNumber)'
-        filepath: '$(Build.SourcesDirectory)/bin'
-        createProfile: false
-        failTheBuildIfVeracodeScanDidNotInitiate: false
-        createSandBox: false
-        scanStatusCheckInterval: '60'
-        importResults: false
-        failBuildOnPolicyFail: false
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: 'D:\a\1\s\filtered_results.json'
-        ArtifactName: 'pipeline scan results'
-        publishLocation: 'Container'
+        - task: Veracode@3
+          inputs:
+            ConnectionDetailsSelection: 'Endpoint'
+            AnalysisService: 'Veracode_API'
+            veracodeAppProfile: '$(system.teamProject)'
+            version: '$(build.buildNumber)'
+            filepath: '$(Build.SourcesDirectory)/bin'
+            createProfile: false
+            failTheBuildIfVeracodeScanDidNotInitiate: false
+            createSandBox: false
+            scanStatusCheckInterval: '60'
+            importResults: false
+            failBuildOnPolicyFail: false
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: 'D:\a\1\s\filtered_results.json'
+            ArtifactName: 'pipeline scan results'
+            publishLocation: 'Container'
 
 ### Veracode SCA Scan (3rd Party) ###
 #- task: PowerShell@2
