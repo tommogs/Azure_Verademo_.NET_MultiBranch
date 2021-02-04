@@ -57,19 +57,19 @@ stages:
           $ProgressPreference = "silentlyContinue"
           (New-Object System.Net.WebClient).DownloadFile('https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip', '/pipeline-scan-LATEST.zip')
           Expand-Archive -force /pipeline-scan-LATEST.zip
-          java -jar .\pipeline-scan-LATEST\pipeline-scan.jar --veracode_api_id 0c04153b10f992ce7060d0768185c5f3 --veracode_api_key e5b07866a045104162568fe4787989d24fab65bf00acd4aeeff92d7117c159099d7785eb5ebd26480c7605b2fa5aca66583dc6e75ecd6654d1d51e01153ef8dd -f $(build.artifactstagingdirectory)\VeraDemoNet.zip --fail_on_severity="Very High, High" --issue_details true
+          java -jar .\pipeline-scan-LATEST\pipeline-scan.jar --veracode_api_id $VERACODE_API_KEY_ID --veracode_api_key $VERACODE_API_KEY -f $(build.artifactstagingdirectory)\VeraDemoNet.zip --fail_on_severity="Very High, High" --issue_details true
 
-  - job: Veracode_SCA_Scan
-    steps:
-    - task: PowerShell@2
-      displayName: Veracode SCA
-      inputs:
-        targetType: 'inline'
-        script: |
-          Set-ExecutionPolicy AllSigned -Scope Process -Force
-          $ProgressPreference = "silentlyContinue"
-          iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
-          srcclr scan $(Build.SourcesDirectory)
+#  - job: Veracode_SCA_Scan
+#    steps:
+#    - task: PowerShell@2
+#      displayName: Veracode SCA
+#      inputs:
+#        targetType: 'inline'
+#        script: |
+#          Set-ExecutionPolicy AllSigned -Scope Process -Force
+#          $ProgressPreference = "silentlyContinue"
+#          iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
+#          srcclr scan $(Build.SourcesDirectory)
 
 #    - task: PublishBuildArtifacts@1
 #      inputs:
