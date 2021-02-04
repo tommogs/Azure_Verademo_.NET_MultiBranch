@@ -67,7 +67,7 @@ stages:
           (New-Object System.Net.WebClient).DownloadFile('https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip', '/pipeline-scan-LATEST.zip')
           Expand-Archive -force /pipeline-scan-LATEST.zip
           dir $(build.artifactstagingdirectory)
-          java -jar .\pipeline-scan-LATEST\pipeline-scan.jar --vid $env:VERACODE_API_ID --vkey $env:VERACODE_API_KEY -f $(build.artifactstagingdirectory)\VeraDemoNet.zip --fail_on_severity="Very High, High" --issue_details true
+          java -jar .\pipeline-scan-LATEST\pipeline-scan.jar --vid 0c04153b10f992ce7060d0768185c5f3 --vkey e5b07866a045104162568fe4787989d24fab65bf00acd4aeeff92d7117c159099d7785eb5ebd26480c7605b2fa5aca66583dc6e75ecd6654d1d51e01153ef8dd -f $(build.artifactstagingdirectory)\VeraDemoNet.zip --fail_on_severity="Very High, High" --issue_details true
 
 #    - task: PublishBuildArtifacts@1
 #      inputs:
