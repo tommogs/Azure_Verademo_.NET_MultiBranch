@@ -6,11 +6,11 @@
 trigger:
   branches:
     include:
-    - master
+    - Feature/*
 
     exclude:
       - releases/*
-      - Feature/*
+      - master
 
 pool:
   vmImage: 'windows-latest'
