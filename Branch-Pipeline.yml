@@ -23,15 +23,6 @@ stages:
   jobs:
   - job: VS_Build
     steps:
-    ### Fetch NuGet Tool ###
-    - task: NuGetToolInstaller@1
-
-    ### Install NuGet Tool ###
-    - task: NuGetCommand@2
-      displayName: Install NuGet
-      inputs:
-        restoreSolution: '$(solution)'
-
     ### Build APP (MSBuild) ###
     - task: VSBuild@1
       inputs:
