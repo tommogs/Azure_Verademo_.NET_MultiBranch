@@ -14,8 +14,8 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
-#variables:
-#  - group: veracode_variablegroup
+variables:
+  - group: veracode_variablegroup
 
 steps:
     - task: NuGetCommand@2
