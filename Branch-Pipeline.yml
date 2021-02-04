@@ -40,30 +40,36 @@ stages:
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
 
-- stage: SecurityTesting
-  displayName: Security Testing
-  jobs:
-  - job: sast_pipeline_scan
-    steps:
-   
-    - task: PowerShell@2
-      displayName: Veracode Pipeline Scan
-      continueOnError: true
-      inputs:
-        targetType: 'inline'
-        script: |
-          Set-ExecutionPolicy AllSigned -Scope Process -Force
-          $ProgressPreference = "silentlyContinue"
-          (New-Object System.Net.WebClient).DownloadFile('https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip', '/pipeline-scan-LATEST.zip')
-          Expand-Archive -force /pipeline-scan-LATEST.zip
-          dir $(build.artifactstagingdirectory)
-          java -jar .\pipeline-scan-LATEST\pipeline-scan.jar --vid $env:VERACODE_API_ID --vkey $env:VERACODE_API_KEY -f D:\a\1\a\VeraDemoNet.zip --fail_on_severity="Very High, High" --issue_details true
-
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: 'D:\a\1\s\filtered_results.json'
-        ArtifactName: 'pipeline scan results'
+        PathtoPublish: '$(build.artifactstagingdirectory)'
+        ArtifactName: 'build artifact'
         publishLocation: 'Container'
+
+#- stage: SecurityTesting
+#  displayName: Security Testing
+#  jobs:
+#  - job: sast_pipeline_scan
+#    steps:
+#   
+#    - task: PowerShell@2
+#      displayName: Veracode Pipeline Scan
+#      continueOnError: true
+#      inputs:
+#        targetType: 'inline'
+#        script: |
+#          Set-ExecutionPolicy AllSigned -Scope Process -Force
+#         $ProgressPreference = "silentlyContinue"
+#          (New-Object System.Net.WebClient).DownloadFile('https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip', '/pipeline-scan-LATEST.zip')
+#          Expand-Archive -force /pipeline-scan-LATEST.zip
+#          dir $(build.artifactstagingdirectory)
+#          java -jar .\pipeline-scan-LATEST\pipeline-scan.jar --vid $env:VERACODE_API_ID --vkey $env:VERACODE_API_KEY -f D:\a\1\a\VeraDemoNet.zip --fail_on_severity="Very High, High" --issue_details true
+
+#    - task: PublishBuildArtifacts@1
+#      inputs:
+#        PathtoPublish: 'D:\a\1\s\filtered_results.json'
+#        ArtifactName: 'pipeline scan results'
+#        publishLocation: 'Container'
 
 ### Veracode SCA Scan (3rd Party) ###
 #- task: PowerShell@2
