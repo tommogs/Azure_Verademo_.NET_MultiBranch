@@ -20,9 +20,8 @@ variables:
 stages:
 - stage: Build
   jobs:
-  - job: VS_Build
+  - job: VS_Build .NET
     steps:
-    ### Build APP (MSBuild) ###
     - task: NuGetCommand@2
       displayName: Install NuGet
       inputs:
@@ -33,17 +32,15 @@ stages:
         msbuildArgs: '/p:OutputPath=bin /p:DeployOnBuild=true /p:PrecompileBeforePublish=true /p:EnableUpdateable=false /p:DebugSymbols=true /p:WDPMergeOption="CreateSeparateAssembly" /p:WebPublishMethod="FileSystem" /p:UseMerge=false /p:PackageLocation="$(build.artifactstagingdirectory)\\"'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
-
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)\VeraDemoNet.zip'
         ArtifactName: 'build artifact'
         publishLocation: 'Container'
 
-- stage: SecurityTesting
-  displayName: Security Testing
+- stage: Security Testing
   jobs:
-  - job: sast_pipeline_scan
+  - job: SAST_Pipeline_Scan
     steps:
     - task: DownloadPipelineArtifact@2
       inputs:
@@ -51,7 +48,7 @@ stages:
         patterns: '**/*.zip'
         path: $(build.artifactstagingdirectory)
     - task: PowerShell@2
-      displayName: Veracode Pipeline Scan
+      displayName: Pipeline Scan PowerShell
       continueOnError: true
       inputs:
         targetType: 'inline'
@@ -60,22 +57,22 @@ stages:
           $ProgressPreference = "silentlyContinue"
           (New-Object System.Net.WebClient).DownloadFile('https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip', '/pipeline-scan-LATEST.zip')
           Expand-Archive -force /pipeline-scan-LATEST.zip
-          dir $(build.artifactstagingdirectory)
           java -jar .\pipeline-scan-LATEST\pipeline-scan.jar --veracode_api_id 0c04153b10f992ce7060d0768185c5f3 --veracode_api_key e5b07866a045104162568fe4787989d24fab65bf00acd4aeeff92d7117c159099d7785eb5ebd26480c7605b2fa5aca66583dc6e75ecd6654d1d51e01153ef8dd -f $(build.artifactstagingdirectory)\VeraDemoNet.zip --fail_on_severity="Very High, High" --issue_details true
+
+  - job: Veracode_SCA_Scan
+    steps:
+    - task: PowerShell@2
+      displayName: Veracode SCA
+      inputs:
+        targetType: 'inline'
+        script: |
+          Set-ExecutionPolicy AllSigned -Scope Process -Force
+          $ProgressPreference = "silentlyContinue"
+          iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
+          srcclr scan $(Build.SourcesDirectory)
 
 #    - task: PublishBuildArtifacts@1
 #      inputs:
 #        PathtoPublish: 'D:\a\1\s\filtered_results.json'
 #        ArtifactName: 'pipeline scan results'
 #        publishLocation: 'Container'
-
-### Veracode SCA Scan (3rd Party) ###
-#- task: PowerShell@2
-#  displayName: Veracode SCA
-#  inputs:
-#    targetType: 'inline'
-#    script: |
-#         Set-ExecutionPolicy AllSigned -Scope Process -Force
-#         $ProgressPreference = "silentlyContinue"
-#         iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
-#         srcclr scan $(Build.SourcesDirectory)
