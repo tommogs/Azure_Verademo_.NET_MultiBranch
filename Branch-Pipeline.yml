@@ -10,13 +10,11 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  - group: veracode_variablegroup
-
-variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   continueOnError: true
+  - group: veracode_variablegroup
 
 steps:
 ### Fetch NuGet Tool ###
