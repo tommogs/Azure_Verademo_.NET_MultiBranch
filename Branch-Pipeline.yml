@@ -24,6 +24,10 @@ stages:
   - job: VS_Build
     steps:
     ### Build APP (MSBuild) ###
+    - task: NuGetCommand@2
+      displayName: Install NuGet
+      inputs:
+        restoreSolution: '$(solution)'
     - task: VSBuild@1
       inputs:
         solution: '$(solution)'
