@@ -34,24 +34,6 @@ steps:
     configuration: '$(buildConfiguration)'
 
 
-### Test App (Unit Tests) ###
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-### Veracode SCA Scan (3rd Party) ###
-#- task: PowerShell@2
-#  displayName: Veracode SCA
-#  inputs:
-#    targetType: 'inline'
-#    script: |
-#         Set-ExecutionPolicy AllSigned -Scope Process -Force
-#         $ProgressPreference = "silentlyContinue"
-#         iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
-#         srcclr scan $(Build.SourcesDirectory)
-
-
 - task: PowerShell@2
   displayName: Veracode Pipeline Scan
   continueOnError: true
@@ -69,3 +51,14 @@ steps:
     PathtoPublish: 'D:\a\1\s\filtered_results.json'
     ArtifactName: 'pipeline scan results'
     publishLocation: 'Container'
+
+### Veracode SCA Scan (3rd Party) ###
+#- task: PowerShell@2
+#  displayName: Veracode SCA
+#  inputs:
+#    targetType: 'inline'
+#    script: |
+#         Set-ExecutionPolicy AllSigned -Scope Process -Force
+#         $ProgressPreference = "silentlyContinue"
+#         iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
+#         srcclr scan $(Build.SourcesDirectory)
