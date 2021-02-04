@@ -45,6 +45,11 @@ stages:
   jobs:
   - job: sast_pipeline_scan
     steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        artifact: WebApp
+        patterns: '**/*.zip'
+        path: $(Build.SourcesDirectory)
     - task: PowerShell@2
       displayName: Veracode Pipeline Scan
       continueOnError: true
