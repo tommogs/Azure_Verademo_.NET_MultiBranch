@@ -15,6 +15,9 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
+variables:
+  - group: veracode_variablegroup
+
 stages:
 - stage: Build
   displayName: Build .NET App
