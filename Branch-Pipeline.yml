@@ -42,7 +42,7 @@ stages:
 
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(build.artifactstagingdirectory)'
+        PathtoPublish: '$(build.artifactstagingdirectory)\VeraDemoNet.zip'
         ArtifactName: 'build artifact'
         publishLocation: 'Container'
 
