@@ -44,7 +44,7 @@ steps:
           $ProgressPreference = "silentlyContinue"
           (New-Object System.Net.WebClient).DownloadFile('https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip', '/pipeline-scan-LATEST.zip')
           Expand-Archive -force /pipeline-scan-LATEST.zip
-          java -jar .\pipeline-scan-LATEST\pipeline-scan.jar --veracode_api_id '$env:VERACODE_API_ID' --veracode_api_key '$env:VERACODE_API_KEY' -f $(build.artifactstagingdirectory)\VeraDemoNet.zip --fail_on_severity="Very High, High" --issue_details true
+          java -jar .\pipeline-scan-LATEST\pipeline-scan.jar --veracode_api_id ${env:VERACODE_API_ID} --veracode_api_key ${env:VERACODE_API_KEY} -f $(build.artifactstagingdirectory)\VeraDemoNet.zip --fail_on_severity="Very High, High" --issue_details true
 
 #  - job: Veracode_SCA_Scan
 #    steps:
