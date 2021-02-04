@@ -48,11 +48,12 @@ steps:
   jobs:
   - job: Sast_Sandbox_scan
     steps:
-    - task: DownloadPipelineArtifact@2
+      - task: DownloadPipelineArtifact@2
       inputs:
         artifact: WebApp
         patterns: '**/*.war'
         path: $(Build.SourcesDirectory)/bin
+
     - task: Veracode@3
       inputs:
         ConnectionDetailsSelection: 'Endpoint'
