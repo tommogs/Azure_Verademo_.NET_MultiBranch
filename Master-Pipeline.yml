@@ -29,12 +29,6 @@ steps:
           msbuildArgs: '/p:OutputPath=bin /p:DeployOnBuild=true /p:PrecompileBeforePublish=true /p:EnableUpdateable=false /p:DebugSymbols=true /p:WDPMergeOption="CreateSeparateAssembly" /p:WebPublishMethod="FileSystem" /p:UseMerge=false'
           platform: '$(buildPlatform)'
           configuration: '$(buildConfiguration)'
-      
-      - task: PublishBuildArtifacts@1
-        inputs:
-          PathtoPublish: '$(build.artifactstagingdirectory)\VeraDemoNet.zip'
-          ArtifactName: 'build artifact'
-          publishLocation: 'Container'
 
       - task: Veracode@3
         inputs:
