@@ -19,7 +19,6 @@ variables:
 
 stages:
 - stage: Build
-  displayName: Build .NET App
   jobs:
   - job: VS_Build
     steps:
