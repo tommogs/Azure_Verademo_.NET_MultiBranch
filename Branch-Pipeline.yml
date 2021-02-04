@@ -20,7 +20,7 @@ variables:
 stages:
 - stage: Build
   jobs:
-  - job: VS_Build .NET
+  - job: VS_Build_DOTNET
     steps:
     - task: NuGetCommand@2
       displayName: Install NuGet
@@ -38,7 +38,7 @@ stages:
         ArtifactName: 'build artifact'
         publishLocation: 'Container'
 
-- stage: Security Testing
+- stage: Security_Testing
   jobs:
   - job: SAST_Pipeline_Scan
     steps:
