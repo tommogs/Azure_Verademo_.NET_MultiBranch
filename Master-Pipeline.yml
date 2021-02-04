@@ -41,9 +41,20 @@ steps:
           failTheBuildIfVeracodeScanDidNotInitiate: false
           createSandBox: false
           scanStatusCheckInterval: '60'
-          importResults: false
+          importResults: true
           failBuildOnPolicyFail: false
-      
+
+      - task: Veracode Flaw Importer@3
+        inputs:
+          ConnectionDetailsSelection: 'Endpoint'
+          AnalysisService: 'Veracode_API'
+          veracodeAppProfile: '$(system.teamProject)'
+          sandboxName: 
+          importType: 'All Flaws'
+          workItemType: 'Bug'
+          area: '$(system.teamProject)'
+          flawImportLimit: '1000'
+
 #      - task: PublishBuildArtifacts@1
 #        inputs:
 #          PathtoPublish: 'D:\a\1\s\filtered_results.json'
