@@ -51,8 +51,8 @@ stages:
       - task: DownloadPipelineArtifact@2
         inputs:
           artifact: WebApp
-          patterns: '**/*.war'
-          path: $(Build.SourcesDirectory)/bin
+          patterns: '**/*.zip'
+          path: $(Build.SourcesDirectory)
 
       - task: Veracode@3
         inputs:
