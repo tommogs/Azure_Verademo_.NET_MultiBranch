@@ -18,24 +18,11 @@ pool:
 variables:
   - group: veracode_variablegroup
 
-stages:
-- stage: Build
-  displayName: Build .NET App
-  jobs:
-  - job: VS_Build
-
-
-    steps:
-    ### Fetch NuGet Tool ###
-      - task: NuGetToolInstaller@1
-
-    ### Install NuGet Tool ###
+steps:
       - task: NuGetCommand@2
         displayName: Install NuGet
         inputs:
           restoreSolution: '$(solution)'
-
-    ### Build APP (MSBuild) ###
       - task: VSBuild@1
         inputs:
           solution: '$(solution)'
@@ -48,17 +35,6 @@ stages:
           PathtoPublish: '$(build.artifactstagingdirectory)\VeraDemoNet.zip'
           ArtifactName: 'build artifact'
           publishLocation: 'Container'
-
-- stage: SecurityTesting
-  displayName: Security Testing
-  jobs:
-  - job: Sast_Sandbox_scan
-    steps:
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          artifact: 'build artifact'
-          patterns: '**/*.zip'
-          path: $(build.artifactstagingdirectory)
 
       - task: Veracode@3
         inputs:
@@ -73,11 +49,12 @@ stages:
           scanStatusCheckInterval: '60'
           importResults: false
           failBuildOnPolicyFail: false
-      - task: PublishBuildArtifacts@1
-        inputs:
-          PathtoPublish: 'D:\a\1\s\filtered_results.json'
-          ArtifactName: 'pipeline scan results'
-          publishLocation: 'Container'
+      
+#      - task: PublishBuildArtifacts@1
+#        inputs:
+#          PathtoPublish: 'D:\a\1\s\filtered_results.json'
+#          ArtifactName: 'pipeline scan results'
+#          publishLocation: 'Container'
 
 ### Veracode SCA Scan (3rd Party) ###
 #- task: PowerShell@2
@@ -90,10 +67,6 @@ stages:
 #         iex ((New-Object System.Net.WebClient).DownloadString('https://download.srcclr.com/ci.ps1'))
 #         srcclr scan $(Build.SourcesDirectory)
 
-# Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 
 
