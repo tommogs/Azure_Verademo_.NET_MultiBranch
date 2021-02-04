@@ -23,11 +23,7 @@ stages:
   displayName: Build .NET App
   jobs:
   - job: VS_Build
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-  continueOnError: true
+
 
 steps:
 ### Fetch NuGet Tool ###
@@ -70,11 +66,11 @@ steps:
         scanStatusCheckInterval: '60'
         importResults: false
         failBuildOnPolicyFail: false
-      - task: PublishBuildArtifacts@1
-        inputs:
-          PathtoPublish: 'D:\a\1\s\filtered_results.json'
-          ArtifactName: 'pipeline scan results'
-          publishLocation: 'Container'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: 'D:\a\1\s\filtered_results.json'
+        ArtifactName: 'pipeline scan results'
+        publishLocation: 'Container'
 
 ### Veracode SCA Scan (3rd Party) ###
 #- task: PowerShell@2
