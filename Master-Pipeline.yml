@@ -36,7 +36,7 @@ steps:
           AnalysisService: 'Veracode_API'
           veracodeAppProfile: '$(system.teamProject)'
           version: '$(build.buildNumber)'
-          filepath: '$(build.artifactstagingdirectory)\VeraDemoNet.zip'
+          filepath: '$(build.artifactstagingdirectory)'
           createProfile: false
           failTheBuildIfVeracodeScanDidNotInitiate: false
           createSandBox: false
