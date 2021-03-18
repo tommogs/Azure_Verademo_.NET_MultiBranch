@@ -48,7 +48,7 @@ steps:
           createSandBox: false
           scanStatusCheckInterval: '60'
           importResults: true
-          failBuildOnPolicyFail: false
+          failBuildOnPolicyFail: true
 
       - task: Veracode Flaw Importer@3
         inputs:
